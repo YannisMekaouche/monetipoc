@@ -1,10 +1,10 @@
 // https://www.monetico-paiement.fr/fr/info/documentations/Monetico_Paiement_documentation_technique_v2.0.pdf
 
 import {
-    signHmacSha1,
-    generateOperationalHmac,
-    generateRandomString,
-    base64Encode
+  signHmacSha1,
+  generateOperationalHmac,
+  generateRandomString,
+  base64Encode
 } from '../utils'
 
 const moment = require('moment')
@@ -13,16 +13,16 @@ const version = '3.0'
 
 export default (req, res) => {
   const {
-      montant,
-      context,
-      url_retour_ok,
-      url_retour_err
+    montant,
+    context,
+    url_retour_ok,
+    url_retour_err
   } = req.query
 
   const {
-      TPE,
-      lgue,
-      societe
+    TPE,
+    lgue,
+    societe
   } = process.env
 
   const secretKey = process.env.moneticoSecretKey
