@@ -44,10 +44,23 @@ export default (req, res) => {
     version
   }
 
-  const strFields = Object.keys(fields).map(k => `${k}=${fields[k]}`).join('*')
+  const strFieldsOrder = [
+    'TPE',
+    'contexte_commande',
+    'date',
+    'lgue',
+    'montant',
+    'reference',
+    'societe',
+    'url_retour_err',
+    'url_retour_ok',
+    'version'
+  ]
+
+  const strFields = strFieldsOrder.map(k => `${k}=${fields[k]}`).join('*')
   const encodedSecret = generateOperationalHmac(secretKey)
 
-  const mac = signHmacSha1(strFields, encodedSecret)
+  const mac = signHmacSha1(encodedSecret, strFields)
 
   res.json({
     fields,

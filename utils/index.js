@@ -1,4 +1,4 @@
-const crypto = require('crypto')
+const HmacSha1 = require('hmac_sha1')
 
 const strSplit = (string, splitLength) => {
   if (splitLength === null) {
@@ -21,10 +21,9 @@ const strSplit = (string, splitLength) => {
 }
 
 export const signHmacSha1 = (key, str) => {
-  const hmac = crypto.createHmac('sha1', key)
-  const signed = hmac.update(Buffer.from(str, 'utf-8')).digest('hex')
+  const hmacSha1 = new HmacSha1()
 
-  return signed
+  return hmacSha1.digest(key, str)
 }
 
 export const base64Encode = (str) => {
