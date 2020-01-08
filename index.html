@@ -1,0 +1,83 @@
+<html>
+  <form method="post" name="Monetico" target="_top" action="https://p.monetico-services.com/paiement.cgi"
+    onsubmit="return sendForm(event)">
+    <input type="hidden" name="version">
+    <input type="hidden" name="TPE">
+    <input type="hidden" name="date">
+    <input type="hidden" name="montant">
+    <input type="hidden" name="reference">
+    <input type="hidden" name="MAC">
+    <input type="hidden" name="url_retour_ok">
+    <input type="hidden" name="url_retour_err">
+    <input type="hidden" name="lgue">
+    <input type="hidden" name="societe">
+    <input type="hidden" name="contexte_commande">
+    <input type="submit" name="bouton" value="Paiement CB">
+  </form>
+</html>
+
+<script>
+  function generateMac() {
+    const xhr = new XMLHttpRequest()
+    const context = {
+      billing: {
+        firstName: "Jérémy",
+        lastName: "Grimm",
+        addressLine1: "3 rue de l'église",
+        city: "Ostheim",
+        postalCode: "68150",
+        country: "FR"
+      },
+      shipping:{
+        firstName: "Jérémy",
+        lastName: "Grimm",
+        addressLine1: "3 rue de l'église",
+        city: "Ostheim",
+        postalCode: "68150",
+        country: "FR",
+        email: "jerem68@hotmail.com",
+        phone: "+33-060606060",
+        shipIndicator: "billing_address",
+        deliveryTimeframe: "two_day",
+        firstUseDate: "2017-01-25",
+        matchBillingAddress: true
+      }
+    }
+
+    const url = `/hmac?montant=4EUR&context=${encodeURIComponent(JSON.stringify(context))}&url_retour_ok=${window.location.href
+    }&url_retour_err=${window.location.href}`
+
+    xhr.open('GET', url)
+    xhr.send()
+
+    return new Promise((resolve, reject) => {
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            const { fields, mac } = JSON.parse(xhr.responseText)
+
+            resolve({ fields, mac })
+          } else {
+            reject(xhr.responseText)
+          }
+        }
+      }
+    })
+  }
+
+  async function sendForm(e) {
+    e.preventDefault()
+
+    const { fields, mac } = await generateMac()
+
+    Object.keys(fields).forEach(k => {
+      const input = document.getElementsByName(k)[0]
+
+      input.value = fields[k]
+    })
+
+    document.getElementsByName('MAC')[0].value = mac
+
+    e.target.submit()
+  }
+</script>

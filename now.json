@@ -1,0 +1,12 @@
+{
+  "routes": [{
+    "src": "/hmac",
+    "dest": "/api/hmac.js"
+  }],
+  "env": {
+    "moneticoSecretKey": "@moneticoSecretKey",
+    "TPE": "@moneticoTpe",
+    "lgue": "@moneticoLgue",
+    "societe": "@moneticoSociete"
+  }
+}
