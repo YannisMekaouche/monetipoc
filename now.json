@@ -4,9 +4,9 @@
     "dest": "/api/hmac.js"
   }],
   "env": {
-    "moneticoSecretKey": "@moneticoSecretKey",
-    "TPE": "@moneticoTpe",
-    "lgue": "@moneticoLgue",
-    "societe": "@moneticoSociete"
+    "moneticoSecretKey": "@moneticosecretkey",
+    "TPE": "@moneticotpe",
+    "lgue": "@moneticolgue",
+    "societe": "@moneticosociete"
   }
 }
